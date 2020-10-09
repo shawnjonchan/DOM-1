@@ -125,7 +125,6 @@ window.dom = {
     return container.content.firstChild;
   },
   after: function after(node, node2) {
-    console.log(node.nextSibling);
     node.parentNode.insertBefore(node2, node.nextSibling);
   },
   before: function before(node, node2) {
@@ -204,10 +203,74 @@ window.dom = {
         }
       }
     }
+  },
+  class: {
+    add: function add(node, className) {
+      node.classList.add(className);
+    },
+    remove: function remove(node, className) {
+      node.classList.remove(className);
+    },
+    has: function has(node, className) {
+      return node.classList.contains(className);
+    }
+  },
+  on: function on(node, eventName, fn) {
+    node.addEventListener(eventName, fn);
+  },
+  off: function off(node, eventName, fn) {
+    node.removeEventListener(eventName, fn);
+  },
+  find: function find(selector, scope) {
+    return (scope || document).querySelectorAll(selector);
+  },
+  parent: function parent(node) {
+    return node.parentNode;
+  },
+  children: function children(node) {
+    return node.children;
+  },
+  siblings: function siblings(node) {
+    return Array.from(node.parentNode.children).filter(function (n) {
+      return n !== node;
+    });
+  },
+  next: function next(node) {
+    var x = node.nextSibling;
+
+    while (x && x.nodeType === 3) {
+      x = x.nextSibling;
+    }
+
+    return x;
+  },
+  previous: function previous(node) {
+    var x = node.previousSibling;
+
+    while (x && x.nodeType === 3) {
+      x = x.previousSibling;
+    }
+
+    return x;
+  },
+  each: function each(nodeList, fn) {
+    for (var i = 0; i < nodeList.length; i++) {
+      fn.call(null, nodeList[i]);
+    }
+  },
+  index: function index(node) {
+    var list = dom.children(node.parentNode);
+    var i;
+
+    for (i = 0; i < list.length; i++) {
+      if (list[i] === node) {
+        break;
+      }
+    }
+
+    return i;
   }
 };
-
-dom.create = function () {};
 },{}],"C:/Users/39283/AppData/Local/Yarn/Data/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
